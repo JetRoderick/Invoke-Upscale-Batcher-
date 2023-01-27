@@ -1,0 +1,68 @@
+import subprocess
+import time
+import os
+import glob
+
+# Print welcome message
+print(" ")
+print("-" * 50)
+print("     Welcome to Jet Roderick's auto Upscaler for all your upscaling batching needs")
+print("-" * 50)
+print(" ")
+time.sleep(.7)
+
+# Get all files in your outputs folder. Make sure it's between the 'in/here'
+folder_path = r'insert/path/to/your/invoke/output/folder'
+file_list = glob.glob(os.path.join(folder_path, '*.png'))
+
+
+# Get all the upscaled/embiggen files -
+# Checks files to see if they have been upscaled
+# this is a hack to stop the process from taking ages. do you really need 16K or more?
+upscaled_file_list = glob.glob(os.path.join(folder_path, '*upscale.png'))
+embiggen_file_list = glob.glob(os.path.join(folder_path, '*embiggen.png'))
+
+# Get the prefixes of the upscaled/embiggen files
+upscaled_file_prefixes = [os.path.basename(file).split(".")[0] for file in upscaled_file_list]
+embiggen_file_prefixes = [os.path.basename(file).split(".")[0] for file in embiggen_file_list]
+
+
+# Count the number of files and filter out files whose prefix appears in the list of upscaled/embiggen files
+# this creates a list of files that haven't been upscaled
+# giving you the opportunity create larger images if needs be.
+file_count = len([file for file in file_list if os.path.basename(file).split(".")[0] not in upscaled_file_prefixes and os.path.basename(file).split(".")[0] not in embiggen_file_prefixes])
+print(f'Number of files that could be processed: {file_count}')
+if file_count == 0:
+    print("All images have already been upscaled or embiggen")
+    print(" ")
+    response = input("Do you want to proceed with upscaling/embiggen anyway? (y/n)")
+    print(" ")
+    if response.lower() != 'y':
+        exit()
+        
+print (" ")
+print ("Usage ESRGAN/Upscale: -U4, this can take upto 8 on a 1070 512*8=4096 ")
+print(" ")
+print ("Usage: -embiggen <scaling_factor> <esrgan_strength 0-1> <overlap_ratio OR overlap_pixels> ")
+print(" ")
+user_command = input("input you upscale command: ")
+
+# Start the invoke.bat script
+process = subprocess.Popen([r"C:\Users\EmagUser\invokeai\invoke.bat"], stdin=subprocess.PIPE, shell=True)
+
+
+# Send the input "1" to the InvokeAi to start the CLI - a hack. 
+process.stdin.write(b'1\n')
+process.stdin.flush()
+
+# wait for 10 seconds apparently it breaks without it - all work and no play makes jack a dull boy.
+time.sleep(10)
+
+# Iterate through the file_list and filter out files containing "upscale" in the name
+for file in [file for file in file_list if "upscale" not in os.path.basename(file) and "embiggen" not in os.path.basename(file)]:
+    file_name = os.path.basename(file)
+    # Send the input "!fix file_name -U4" to the script's standard input
+    process.stdin.write(f'!fix {file_name} {user_command}\n'.encode())
+    process.stdin.flush()
+    # Wait for 10 seconds
+    time.sleep(10)
