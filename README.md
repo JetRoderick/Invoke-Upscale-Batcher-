@@ -1,20 +1,12 @@
-# Invoke-Upscale-Batcher-
+"Invoke-Upscale-Batcher" is a script that works alongside "invokeai". It automates all "!fix" commands, allowing the user to input upscale commands. It is primarily designed for upscaling.
 
-This works along side invokeai. 
+Before running the script, it must be edited. The user must change the "invokePath" variable to the location of their "invoke.bat" file and the "invokeOutputs" variable to the location of their "Outputs" folder for "invokeAI". 
 
-It automates all !fix commands allowing the user to input upscale commands. I made mainly for upscaling. 
+The script will not run without these path locations being correctly specified.
 
-Before running the script you must edit it. 
+Commands for the script should be in the following format:
 
-You must point it to where your invoke.bat file. Change invokePath = "insert/path/to/invoke.bat"
+    "-U" followed by a number (1, 2, 4, or 8)
+    or "-embiggen" followed by a scaling factor, an "esrgan" strength value between 0 and 1, and either an "overlap ratio" or "overlap pixels" value.
 
-
-and to point where your outputs folder is for invokeAI. Change invokeOutputs = "insert/path/to/Outputs/folder"
-
-The py file wont run without changing these path locations. 
-
-Commands should be either
-
--U and number 1/2/4/8 seem to work fine
-or 
--embiggen <scaling_factor> <esrgan_strength 0-1> <overlap_ratio OR overlap_pixels> 
+https://invoke-ai.github.io/InvokeAI/features/EMBIGGEN/#embiggen_1
