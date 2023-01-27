@@ -8,7 +8,7 @@ Before running the script you must edit it.
 
 You must point it to where your invoke.bat file. Change to be made on line 50
 
-and to point where your outputs folder is for invokeAI. change to made on line 15
+and to point where your outputs folder is for invokeAI. Change to made on line 15
 
 The py file wont run without changing these path locations. 
 
