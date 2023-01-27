@@ -3,6 +3,9 @@ import time
 import os
 import glob
 
+invokePath = "insert/path/to/invoke.bat"
+invokeOutputs = "insert/path/to/Outputs/folder"
+
 # Print welcome message
 print(" ")
 print("-" * 50)
@@ -11,8 +14,8 @@ print("-" * 50)
 print(" ")
 time.sleep(.7)
 
-# Get all files in your outputs folder. Make sure it's between the 'in/here'
-folder_path = r'insert/path/to/your/invoke/output/folder'
+# Get all files in your outputs folder.
+folder_path = r'{invokeOutputs}'
 file_list = glob.glob(os.path.join(folder_path, '*.png'))
 
 
@@ -48,7 +51,7 @@ print(" ")
 user_command = input("input you upscale command: ")
 
 # Start the invoke.bat script
-process = subprocess.Popen([r"\insert\path\to\invokeai\invoke.bat"], stdin=subprocess.PIPE, shell=True)
+process = subprocess.Popen([r"{invokePath}"], stdin=subprocess.PIPE, shell=True)
 
 
 # Send the input "1" to the InvokeAi to start the CLI - a hack. 
