@@ -48,7 +48,7 @@ print(" ")
 user_command = input("input you upscale command: ")
 
 # Start the invoke.bat script
-process = subprocess.Popen([r"C:\Users\EmagUser\invokeai\invoke.bat"], stdin=subprocess.PIPE, shell=True)
+process = subprocess.Popen([r"\insert\path\to\invokeai\invoke.bat"], stdin=subprocess.PIPE, shell=True)
 
 
 # Send the input "1" to the InvokeAi to start the CLI - a hack. 
